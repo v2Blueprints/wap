@@ -1,0 +1,63 @@
+{
+	"about": {
+		"title": "Wap",
+		"explanation": "Web Application Proxy"
+	},
+	"configuration": {
+		"default_site" : ""
+	},
+	"volumes": [
+		{
+			"destination": "/var/lib/nginx/",
+			"source": "data"
+		}
+	],
+	"bindings": [
+		{
+			"type": "embed",
+			"target": {
+				"repository": "https://github.com/v2Blueprints/enginesd_debian_base",
+				"TYPE" : "FROM"
+			}
+		}
+	],
+	"system_packages": {
+		"adds": [
+			"nginx"
+		]
+	},
+	"containers": [
+		{
+			"type": "docker"
+		}
+	],
+	"ports": [
+	{
+	"start_port": 8000,
+	"end_port": 8000,
+	"protocol": "tcp",
+	"external_port": 80
+	},	
+	{
+	"start_port": 4430,
+	"end_port": 4430,
+	"protocol": "tcp",
+	"external_port": 443
+	}
+	],
+	"binding_target": {
+	  "fqdns": "^^binder.fqdn^^",
+		"https": "true",
+		"http": "true",
+		"host":  "^^binder.ip_address^^",
+		"port" : "^^binder.port^^"
+	},
+	"service_tasks": {
+		"connect": [
+			"/usr/local/bin/add_wap.sh"
+		],
+		"disconnect": [
+			"/usr/local/bin/remove_wap.sh"
+		]
+	}
+}
