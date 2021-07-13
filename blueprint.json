@@ -26,6 +26,12 @@
 			"nginx"
 		]
 	},
+	"executions": [
+		{
+			"type": "docker",
+			"CMD": "/usr/local/bin/start.sh"
+		}
+	],
 	"containers": [
 		{
 			"type": "docker"
