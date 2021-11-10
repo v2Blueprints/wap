@@ -8,16 +8,19 @@
 	},
 	"volumes": [
 		{
-			"destination": "/var/lib/nginx/",
-			"source": "data"
+			"destination": "/etc/nginx",
+			"source": "/var/lib/engines/volumes/wap/config"
+		},
+		{
+			"destination": "/etc/nginx/ssl",
+			"source": "/var/lib/engines/volumes/wap/certs"
 		}
 	],
 	"bindings": [
 		{
 			"type": "embed",
 			"target": {
-				"repository": "https://github.com/v2Blueprints/enginesd_debian_base",
-				"TYPE" : "FROM"
+				"repository": "https://github.com/v2Blueprints/enginesd_debian_base"
 			}
 		}
 	],
@@ -26,29 +29,18 @@
 			"nginx"
 		]
 	},
-	"executions": [
-		{
-			"type": "docker",
-			"CMD": "/usr/local/bin/start.sh"
-		}
-	],
-	"containers": [
-		{
-			"type": "docker"
-		}
-	],
 	"ports": [
 	{
-	"start_port": 8000,
-	"end_port": 8000,
-	"protocol": "tcp",
-	"external_port": 80
-	},	
+		"start_port": 8000,
+		"end_port": 8000,
+		"protocol": "tcp",
+		"external_port": 80
+	},
 	{
-	"start_port": 4430,
-	"end_port": 4430,
-	"protocol": "tcp",
-	"external_port": 443
+		"start_port": 4430,
+		"end_port": 4430,
+		"protocol": "tcp",
+		"external_port": 443
 	}
 	],
 	"binding_target": {
