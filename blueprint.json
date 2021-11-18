@@ -24,8 +24,7 @@
         "lxd"
       ],
       "target": {
-        "repository": "https://github.com/v2Blueprints/enginesd_debian_base",
-        "threaded": false
+        "repository": "https://github.com/v2Blueprints/enginesd_debian_base"
       }
     }
   ],
