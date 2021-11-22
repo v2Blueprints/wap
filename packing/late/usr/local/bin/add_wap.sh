@@ -20,19 +20,12 @@
 required_values="fqdn port proto host"
 check_required_values
 
-res=`nslookup ${parent_engine}.engines.internal|grep -e "Address: *[0-9]" |awk '{print $2}'`
- `echo $res | grep -e "[0-9].*\.[0-9].*\.[0-9].*" >/dev/null`
- if test $? -ne 0
-  then  	 
-	echo '{"status":"Error","message":"failed to find internal dns entry for '${parent_engine}'.engines.internal"}'
-	exit 127
- fi
-	 
+
 template="/etc/nginx/templates/${proto}_site.tmpl"
 
 resolv_ip=`nslookup control |grep -e "Address: *[0-9]" |awk '{print $2}'`
 
-servers="server SERVER.engines.internal:PORT;"
+servers="server SERVER:PORT;"
 cnt=1
 if ! test -z $engine_count
  then
@@ -43,7 +36,7 @@ if ! test -z $engine_count
  	 		    if test $cnt -ne 1
  	 			  then
  	 				n=$cnt 	 	   
- 	 				servers="$servers server SERVER$n.engines.internal:PORT;"
+ 	 				servers="$servers server SERVER$n:PORT;"
  	 			fi
  	 		  cnt=`expr $cnt + 1 `			
  	 		done 
@@ -90,48 +83,48 @@ cat /tmp/$fqdn.res | sed "/FOLDER/s//$rewrite/" >  /tmp/$fqdn.path
 domain=`echo $fqdn  | cut -f2- -d.`
 if test "$proto" = default 
  then
-    cp /tmp/site.name /etc/nginx/sites-enabled/default
+    cp /tmp/site.name /etc/nginx/engines.d/default
  elif ! test "$proto" = http
 	 then
-	 	if test -f /home/engines/etc/ssl/certs/${fqdn}.crt
+	 	if test -f /etc/nginx/sslcerts/${fqdn}.crt
 	 		then
 	 			cert_name=${fqdn}
-	 		elif test -f /home/engines/etc/ssl/certs/${domain}.crt 
+	 		elif test -f /etc/nginx/sslcerts/${domain}.crt 
 	 		 then
 	 		 	cert_name=$domain
-	 		 elif test -f /home/engines/etc/ssl/certs/.${domain}.crt 
+	 		 elif test -f /etc/nginx/sslcerts/.${domain}.crt 
 	 		 then
 	 		 	cert_name=.$domain	
 	        else
 	        cert_name=wap
 	     fi
-		if test -f /etc/nginx/sites-enabled/http_https_${fqdn}.site
+		if test -f /etc/nginx/engines.d/http_https_${fqdn}.site
 	     		then
-	     			rm -f /etc/nginx/sites-enabled/http_https_${fqdn}.site
+	     			rm -f /etc/nginx/engines.d/http_https_${fqdn}.site
 	     	fi
-		if test -f /etc/nginx/sites-enabled/https_${fqdn}.site
+		if test -f /etc/nginx/engines.d/https_${fqdn}.site
 	     		then
-	     			rm -f /etc/nginx/sites-enabled/https_${fqdn}.site
+	     			rm -f /etc/nginx/engines.d/https_${fqdn}.site
 	     	fi
-	     	if test -f /etc/nginx/sites-enabled/http_${fqdn}.site
+	     	if test -f /etc/nginx/engines.d/http_${fqdn}.site
 	     		then
-	     			rm -f /etc/nginx/sites-enabled/http_${fqdn}.site
+	     			rm -f /etc/nginx/engines.d/http_${fqdn}.site
 	     	fi
-	    cat /tmp/${fqdn}.path  | sed "/CERTNAME/s//$cert_name/" > /etc/nginx/sites-enabled/${proto}_${fqdn}.site
+	    cat /tmp/${fqdn}.path  | sed "/CERTNAME/s//$cert_name/" > /etc/nginx/engines.d/${proto}_${fqdn}.site
 	 else  #Proto is http
-		if test -f /etc/nginx/sites-enabled/http_${fqdn}.site
+		if test -f /etc/nginx/engines.d/http_${fqdn}.site
 	     		then
-	     			rm -f /etc/nginx/sites-enabled/http_${fqdn}.site
+	     			rm -f /etc/nginx/engines.d/http_${fqdn}.site
 	     	fi
-		if test -f /etc/nginx/sites-enabled/http_https_${fqdn}.site
+		if test -f /etc/nginx/engines.d/http_https_${fqdn}.site
 	     		then
-	     			rm -f /etc/nginx/sites-enabled/http_https_${fqdn}.site
+	     			rm -f /etc/nginx/engines.d/http_https_${fqdn}.site
 	     	fi
-		if test -f /etc/nginx/sites-enabled/https_${fqdn}.site
+		if test -f /etc/nginx/engines.d/https_${fqdn}.site
 	     		then
-	     			rm -f /etc/nginx/sites-enabled/https_${fqdn}.site
+	     			rm -f /etc/nginx/engines.d/https_${fqdn}.site
 	     	fi
-	 	cp /tmp/$fqdn.path /etc/nginx/sites-enabled/${proto}_${fqdn}.site
+	 	cp /tmp/$fqdn.path /etc/nginx/engines.d/${proto}_${fqdn}.site
 fi
 
 mkdir -p /tmp/last_run
