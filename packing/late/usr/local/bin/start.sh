@@ -1,4 +1,4 @@
 #!/bin/sh
 
-
  nginx &
+ wait

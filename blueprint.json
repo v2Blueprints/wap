@@ -9,7 +9,7 @@
   },
   "volumes": [
     {
-      "destination": "/etc/nginx",
+      "destination": "/etc/nginx/engines.d/",
       "source": "/var/lib/engines/volumes/wap/config"
     },
     {
