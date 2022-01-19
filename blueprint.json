@@ -10,11 +10,11 @@
   "volumes": [
     {
       "destination": "/etc/nginx/engines.d/",
-      "source": "/var/lib/engines/volumes/wap/config"
+      "name": "config"
     },
     {
       "destination": "/etc/nginx/ssl",
-      "source": "/var/lib/engines/volumes/wap/certs"
+      "name": "certs"
     }
   ],
   "bindings": [
