@@ -1,4 +1,5 @@
 #!/bin/sh
 
- nginx &
+ #nginx &
+ sleep 3600 &
  wait
