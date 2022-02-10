@@ -1,10 +1,10 @@
 #!/bin/sh
 #. /home/engines/functions/params_to_env.sh
 #params_to_env
- . /home/engines/functions/checks.sh
+# . /home/engines/functions/checks.sh
 
-required_values="fqdn proto"
-check_required_values
+#required_values="fqdn proto"
+#check_required_values
 
 
  
