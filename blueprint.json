@@ -56,10 +56,12 @@
     }
   ],
   "binding_target": {
-    "fqdns": "^^binder.fqdn^^",
-    "https": "true",
-    "http": "true",
-    "host": "^^binder.ip_address^^",
-    "port": "^^binder.port^^"
+    "service": {
+      "fqdns": "^^binder.fqdn^^",
+      "https": "true",
+      "http": "true",
+      "host": "^^binder.ip_address^^",
+      "port": "^^binder.port^^"
+    }
   }
 }
