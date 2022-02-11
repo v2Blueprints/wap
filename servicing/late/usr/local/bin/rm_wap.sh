@@ -6,7 +6,6 @@
 #required_values="fqdn proto"
 #check_required_values
 
-
  
 	if test -f /etc/nginx/sites-enabled/${proto}_${fqdn}.site
 	 then
