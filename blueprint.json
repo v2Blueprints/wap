@@ -57,11 +57,11 @@
   ],
   "binding_target": {
     "service": {
-      "fqdns": "^^binder.fqdn^^",
-      "https": "true",
-      "http": "true",
-      "host": "^^binder.ip_address^^",
-      "port": "^^binder.port^^"
+      "fqdn": "^^domain.fqdn^^",
+      "protocol": "https",
+      "subdomain": "^^binder.identifier^^",
+      "host": "^^domain.ip_address^^",
+      "port": null
     }
   }
 }

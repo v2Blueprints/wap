@@ -2,18 +2,18 @@
 
 # . /usr/local/bin/checks.sh
 
-#required_values="fqdn port proto parent_engine ip"
+#required_values="fqdn port protocol subdomain ip"
 #check_required_values
 
-#res=`nslookup ${parent_engine}.engines.internal|grep -e "Address: *[0-9]" |awk '{print $2}'`
+#res=`nslookup ${subdomain}.engines.internal|grep -e "Address: *[0-9]" |awk '{print $2}'`
 # `echo $res | grep -e "[0-9].*\.[0-9].*\.[0-9].*" >/dev/null`
 # if test $? -ne 0
-#  then  	 
-#	echo '{"status":"Error","message":"failed to find internal dns entry for '${parent_engine}'.engines.internal"}'
+#  then
+#	echo '{"status":"Error","message":"failed to find internal dns entry for '${subdomain}'.engines.internal"}'
 #	exit 127
 # fi
-	 
-template="/usr/local/etc/templates/${proto}_site.tmpl"
+
+template="/usr/local/etc/templates/${protocol}_site.tmpl"
 
 #resolv_ip=`nslookup control |grep -e "Address: *[0-9]" |awk '{print $2}'`
 
@@ -27,14 +27,14 @@ if ! test -z $engine_count
  	 		do
  	 		    if test $cnt -ne 1
  	 			  then
- 	 				n=$cnt 	 	   
+ 	 				n=$cnt
  	 				servers="$servers server SERVER$n.engines.internal:PORT;"
  	 			fi
- 	 		  cnt=`expr $cnt + 1 `			
- 	 		done 
+ 	 		  cnt=`expr $cnt + 1 `
+ 	 		done
  	fi
  fi
- 
+
 if test $require_client_ssl = true
  then
   ENABLE_SSLCA=""
@@ -51,8 +51,8 @@ if test -z $ca_name
  else
    ca_file=${ca_name}_CA.pem
    crl_file=${ca_name}_CA_CRL.pem
-fi   
-  
+fi
+
 cat $template | sed "/SERVERS/s//$servers/" \
 | sed "/FQDN/s//$fqdn/g" \
 | sed "/PORT/s//$port/g"\
@@ -73,20 +73,20 @@ fi
 cat /tmp/$fqdn.res | sed "/FOLDER/s//$rewrite/" >  /tmp/$fqdn.path
 
 domain=`echo $fqdn  | cut -f2- -d.`
-if test "$proto" = default 
+if test "$protocol" = default
  then
     cp /tmp/site.name /etc/nginx/sites-enabled/default
- elif ! test "$proto" = http
+ elif ! test "$protocol" = http
 	 then
 	 	if test -f /home/engines/etc/ssl/certs/${fqdn}.crt
 	 		then
 	 			cert_name=${fqdn}
-	 		elif test -f /home/engines/etc/ssl/certs/${domain}.crt 
+	 		elif test -f /home/engines/etc/ssl/certs/${domain}.crt
 	 		 then
 	 		 	cert_name=$domain
-	 		 elif test -f /home/engines/etc/ssl/certs/.${domain}.crt 
+	 		 elif test -f /home/engines/etc/ssl/certs/.${domain}.crt
 	 		 then
-	 		 	cert_name=.$domain	
+	 		 	cert_name=.$domain
 	        else
 	        cert_name=wap
 	     fi
@@ -102,8 +102,8 @@ if test "$proto" = default
 	     		then
 	     			rm -f /etc/nginx/sites-enabled/http_${fqdn}.site
 	     	fi
-	    cat /tmp/${fqdn}.path  | sed "/CERTNAME/s//$cert_name/" > /etc/nginx/sites-enabled/${proto}_${fqdn}.site
-	 else  #Proto is http
+	    cat /tmp/${fqdn}.path  | sed "/CERTNAME/s//$cert_name/" > /etc/nginx/sites-enabled/${protocol}_${fqdn}.site
+	 else  #protocol is http
 		if test -f /etc/nginx/sites-enabled/http_${fqdn}.site
 	     		then
 	     			rm -f /etc/nginx/sites-enabled/http_${fqdn}.site
@@ -116,7 +116,7 @@ if test "$proto" = default
 	     		then
 	     			rm -f /etc/nginx/sites-enabled/https_${fqdn}.site
 	     	fi
-	 	cp /tmp/$fqdn.path /etc/nginx/sites-enabled/${proto}_${fqdn}.site
+	 	cp /tmp/$fqdn.path /etc/nginx/sites-enabled/${protocol}_${fqdn}.site
 fi
 
 mkdir -p /tmp/last_run
@@ -132,7 +132,7 @@ rm /tmp/*
  	then
  		mkdir -p /var/log/nginx/$fqdn/http/
  	fi
- nginx -s reload	
-	 
+ nginx -s reload
+
 echo '{"status":"Sucess"}'
 exit 0
