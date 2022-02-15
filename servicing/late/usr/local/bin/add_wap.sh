@@ -2,7 +2,7 @@
 
 # . /usr/local/bin/checks.sh
 
-#required_values="fqdn port protocol subdomain ip"
+#required_values="fqdn port protocol subdomain ip_address"
 #check_required_values
 
 #res=`nslookup ${subdomain}.engines.internal|grep -e "Address: *[0-9]" |awk '{print $2}'`
@@ -15,7 +15,7 @@
 
 template="/usr/local/etc/templates/${protocol}_site.tmpl"
 
-#resolv_ip=`nslookup control |grep -e "Address: *[0-9]" |awk '{print $2}'`
+#resolv_ip_address=`nslookup control |grep -e "Address: *[0-9]" |awk '{print $2}'`
 
 servers="server SERVER.engines.internal:PORT;"
 cnt=1
@@ -56,7 +56,7 @@ fi
 cat $template | sed "/SERVERS/s//$servers/" \
 | sed "/FQDN/s//$fqdn/g" \
 | sed "/PORT/s//$port/g"\
-| sed "/SERVER/s//$ip/g" \
+| sed "/SERVER/s//$ip_address/g" \
 | sed "/ENABLE_SSLCA/s//$ENABLE_SSLCA/" \
 | sed "/CA_FILE/s//$ca_file/" \
 | sed "/SSLVERIFY/s//$ssl_verify/"\

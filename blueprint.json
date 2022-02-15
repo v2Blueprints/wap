@@ -60,7 +60,7 @@
       "fqdn": "^^domain.fqdn^^",
       "protocol": "https",
       "subdomain": "^^binder.identifier^^",
-      "host": "^^domain.ip_address^^",
+      "ip_address": "^^consumer.ip_address^^",
       "port": null
     }
   }
