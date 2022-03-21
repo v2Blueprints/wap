@@ -17,23 +17,7 @@ template="/usr/local/etc/templates/${protocol}_site.tmpl"
 
 #resolv_ip_address=`nslookup control |grep -e "Address: *[0-9]" |awk '{print $2}'`
 
-servers="server SERVER.engines.internal:PORT;"
-cnt=1
-if ! test -z $engine_count
- then
- 	if test $engine_count -gt 1
- 	 then
- 	 	while test $cnt -le  $engine_count
- 	 		do
- 	 		    if test $cnt -ne 1
- 	 			  then
- 	 				n=$cnt
- 	 				servers="$servers server SERVER$n.engines.internal:PORT;"
- 	 			fi
- 	 		  cnt=`expr $cnt + 1 `
- 	 		done
- 	fi
- fi
+servers="server SERVER:PORT;"
 
 if test $require_client_ssl = true
  then
