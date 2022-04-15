@@ -4,36 +4,14 @@
     "title": "Wap",
     "explanation": "Web Application Proxy"
   },
-  "configuration": {
-    "default_site": ""
-  },
   "volumes": [
     {
-      "destination": "/etc/nginx",
-      "source": "/var/lib/engines/volumes/wap/config"
+      "destination": "/etc/nginx/engines.d/",
+      "name": "config"
     },
     {
       "destination": "/etc/nginx/ssl",
-      "source": "/var/lib/engines/volumes/wap/certs"
-    }
-  ],
-  "bindings": [
-    {
-      "type": "embed",
-      "runtimes": [
-        "lxd"
-      ],
-      "target": {
-        "repository": "https://github.com/v2Blueprints/enginesd_debian_base"
-      }
-    }
-  ],
-  "images": [
-    {
-      "runtimes": [
-        "docker"
-      ],
-      "identifier": "enginesd_debian_base"
+      "name": "certs"
     }
   ],
   "system_packages": {
@@ -56,10 +34,12 @@
     }
   ],
   "binding_target": {
-    "fqdns": "^^binder.fqdn^^",
-    "https": "true",
-    "http": "true",
-    "host": "^^binder.ip_address^^",
-    "port": "^^binder.port^^"
+    "service": {
+      "fqdn": "^^domain.fqdn^^",
+      "protocol": "https",
+      "subdomain": "^^binder.identifier^^",
+      "ip_address": "^^consumer.ip_address^^",
+      "port": null
+    }
   }
 }
