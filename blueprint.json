@@ -17,25 +17,6 @@
       "name": "certs"
     }
   ],
-  "bindings": [
-    {
-      "type": "embed",
-      "runtimes": [
-        "lxd"
-      ],
-      "target": {
-        "repository": "https://github.com/v2Blueprints/enginesd_debian_base"
-      }
-    }
-  ],
-  "images": [
-    {
-      "runtimes": [
-        "docker"
-      ],
-      "identifier": "enginesd_debian_base"
-    }
-  ],
   "system_packages": {
     "adds": [
       "nginx"
