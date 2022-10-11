@@ -24,16 +24,16 @@
   },
   "ports": [
     {
-      "start_port": 8000,
+      "container_port,": 8000,
       "end_port": 8000,
       "protocol": "tcp",
-      "external_port": 80
+      "host_port": 80
     },
     {
-      "start_port": 4430,
+      "container_port,": 4430,
       "end_port": 4430,
       "protocol": "tcp",
-      "external_port": 443
+      "host_port": 443
     }
   ],
   "binding_target": {
